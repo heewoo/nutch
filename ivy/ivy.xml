@@ -73,7 +73,7 @@
 
     <dependency org="org.jdom" name="jdom" rev="1.1" conf="*->default" />
 
-    <dependency org="com.google.guava" name="guava" rev="11.0.2" />
+    <dependency org="com.google.guava" name="guava" rev="15.0" />
     <dependency org="com.google.code.crawler-commons" name="crawler-commons" rev="0.5" />
     
     <dependency org="org.restlet.jse" name="org.restlet" rev="2.2.3" conf="*->default" />
@@ -115,7 +115,7 @@
     <!-- Uncomment this to use HBase as Gora backend. -->
     <dependency org="org.apache.gora" name="gora-hbase" rev="0.6.1" conf="*->default" /> 
 
-   <dependency org="org.elasticsearch" name="elasticsearch" rev="2.4.0" conf="*->default" />
+   <dependency org="org.elasticsearch" name="elasticsearch" rev="1.4.4" conf="*->default" />
 <!-- Uncomment this to use Accumulo as Gora backend. -->
     <!--
     <dependency org="org.apache.gora" name="gora-accumulo" rev="0.6.1" conf="*->default" />
