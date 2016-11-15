@@ -7,9 +7,7 @@
  The ASF licenses this file to You under the Apache License, Version 2.0
  (the "License"); you may not use this file except in compliance with
  the License.  You may obtain a copy of the License at
-
      http://www.apache.org/licenses/LICENSE-2.0
-
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,36 +22,36 @@
 
   <property>
     <name>http.agent.name</name>
-    <value>google-bot</value> <!-- this can be changed to something more sane if you like -->
+    <value>gt-bot</value> <!-- this can be changed to something more sane if you like -->
   </property>
 
   <property>
     <name>http.robots.agents</name>
-    <value>google-bot</value> <!-- this is the robot name we're looking for in robots.txt files -->
+    <value>gt-bot</value> <!-- this is the robot name we're looking for in robots.txt files -->
   </property>
- 
- <property>
+
+  <property>
     <name>storage.data.store.class</name>
     <value>org.apache.gora.hbase.store.HBaseStore</value>
   </property>
- 
+
   <property>
     <name>plugin.includes</name>
     <!-- do **NOT** enable the parse-html plugin, if you want proper HTML parsing. Use something like parse-tika! -->
-    <value>protocol-httpclient|urlfilter-regex|parse-(text|tika|js)|index-(basic|anchor)|query-(basic|site|url)|response-(json|xml)|summary-basic|scoring-opic|urlnormalizer-(pass|regex|basic)|indexer-elastic2</value>
+    <value>protocol-httpclient|urlfilter-regex|parse-(text|tika|js)|index-(basic|anchor)|query-(basic|site|url)|response-(json|xml)|summary-basic|scoring-opic|urlnormalizer-(pass|regex|basic)|indexer-elastic</value>
   </property>
- 
+
   <property>
     <name>db.ignore.external.links</name>
     <value>true</value> <!-- do not leave the seeded domains (optional) -->
   </property>
-  
- <property>
+
+  <property>
     <name>elastic.host</name>
-    <value>ubuntu0</value> <!-- where is ElasticSearch listening -->
+    <value>search</value> <!-- where is ElasticSearch listening -->
   </property>
 
-<property>
+  <property>
     <name>elastic.port</name>
     <value>9300</value>
   </property>
@@ -79,10 +77,9 @@
   </property>
 
   <property>
-  <name>elastic.max.bulk.docs</name>
-  <value>250</value>
-  <description>Maximum size of the bulk in number of documents.</description>
- </property>
-
-</configuration>
-
+    <name>elastic.max.bulk.docs</name>
+    <value>250</value>
+    <description>Maximum size of the bulk in number of documents.</description>
+  </property>
+ 
+ </configuration>
