@@ -47,7 +47,7 @@
       conf="*->default" />
 
     <!-- Hadoop Dependencies -->
-    <dependency org="org.apache.hadoop" name="hadoop-common" rev="2.5.2" conf="*->default">
+    <dependency org="org.apache.hadoop" name="hadoop-common" rev="2.7.2" conf="*->default">
       <exclude org="hsqldb" name="hsqldb" />
       <exclude org="net.sf.kosmosfs" name="kfs" />
       <exclude org="net.java.dev.jets3t" name="jets3t" />
@@ -55,9 +55,9 @@
       <exclude org="org.mortbay.jetty" name="jsp-*" />
       <exclude org="ant" name="ant" />
     </dependency>
-    <dependency org="org.apache.hadoop" name="hadoop-hdfs" rev="2.5.2" conf="*->default"/>
-    <dependency org="org.apache.hadoop" name="hadoop-mapreduce-client-core" rev="2.5.2" conf="*->default"/>
-    <dependency org="org.apache.hadoop" name="hadoop-mapreduce-client-jobclient" rev="2.5.2" conf="*->default"/>
+    <dependency org="org.apache.hadoop" name="hadoop-hdfs" rev="2.7.2" conf="*->default"/>
+    <dependency org="org.apache.hadoop" name="hadoop-mapreduce-client-core" rev="2.7.2" conf="*->default"/>
+    <dependency org="org.apache.hadoop" name="hadoop-mapreduce-client-jobclient" rev="2.7.2" conf="*->default"/>
     <!-- End of Hadoop Dependencies -->
 
     <dependency org="com.ibm.icu" name="icu4j" rev="55.1" />
@@ -73,7 +73,7 @@
 
     <dependency org="org.jdom" name="jdom" rev="1.1" conf="*->default" />
 
-    <dependency org="com.google.guava" name="guava" rev="15.0" />
+    <dependency org="com.google.guava" name="guava" rev="18.0" />
     <dependency org="com.google.code.crawler-commons" name="crawler-commons" rev="0.5" />
     
     <dependency org="org.restlet.jse" name="org.restlet" rev="2.2.3" conf="*->default" />
@@ -115,7 +115,7 @@
     <!-- Uncomment this to use HBase as Gora backend. -->
     <dependency org="org.apache.gora" name="gora-hbase" rev="0.6.1" conf="*->default" /> 
 
-   <dependency org="org.elasticsearch" name="elasticsearch" rev="1.4.4" conf="*->default" />
+   <dependency org="org.elasticsearch" name="elasticsearch" rev="2.4.0" conf="*->default" />
 <!-- Uncomment this to use Accumulo as Gora backend. -->
     <!--
     <dependency org="org.apache.gora" name="gora-accumulo" rev="0.6.1" conf="*->default" />
