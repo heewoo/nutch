@@ -53,7 +53,7 @@ public class ElasticIndexWriter implements IndexWriter {
   private static final int DEFAULT_MAX_BULK_DOCS = 250;
   private static final int DEFAULT_MAX_BULK_LENGTH = 2500500;
 
-  private Client client;
+  private TransportClient client;
   private Node node;
   private String defaultIndex;
 
@@ -83,7 +83,7 @@ public class ElasticIndexWriter implements IndexWriter {
         job.getConfResourceAsReader("elasticsearch.conf"));
     String line;
     String parts[];
-
+0
     while ((line = reader.readLine()) != null) {
       if (StringUtils.isNotBlank(line) && !line.startsWith("#")) {
         line.trim();
@@ -97,14 +97,18 @@ public class ElasticIndexWriter implements IndexWriter {
 
     if (StringUtils.isNotBlank(clusterName))
       settingsBuilder.put("cluster.name", clusterName);
-    
+
     // Set the cluster name and build the settings
-    Settings settings = settingsBuilder.build();
+    Settings  settings = Settings.builder()
+            .put("cluster.name", clusterName).build();
+
 
     // Prefer TransportClient
     if (host != null && port > 1) {
-      client = TransportClient.builder().settings(settings).build()
-          .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(host), port));
+
+      client = new PreBuiltTransportClient(Settings.EMPTY)
+              .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(host), port));
+
     } else if (clusterName != null) {
       node = nodeBuilder().settings(settings).client(true).node();
       client = node.client();
