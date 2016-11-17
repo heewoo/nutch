@@ -23,7 +23,7 @@
       <export name="*" />
     </library>
 
-    <library name="elasticsearch-5.0.0.jar"/>
+    <library name="elasticsearch-5.0.1.jar"/>
     <library name="hppc-0.7.1.jar"/>
     <library name="jackson-core-2.8.1.jar"/>
     <library name="jackson-dataformat-smile-2.8.1.jar"/>
