@@ -53,7 +53,7 @@ public class ElasticIndexWriter implements IndexWriter {
   private static final int DEFAULT_MAX_BULK_DOCS = 250;
   private static final int DEFAULT_MAX_BULK_LENGTH = 2500500;
 
-  private TransportClient client;
+  private Client client;
   private Node node;
   private String defaultIndex;
 
@@ -77,13 +77,14 @@ public class ElasticIndexWriter implements IndexWriter {
     host = job.get(ElasticConstants.HOST);
     port = job.getInt(ElasticConstants.PORT, 9300);
 
-    Builder settingsBuilder = Settings.builder();
+    Builder settingsBuilder = ImmutableSettings.settingsBuilder().classLoader(
+            Settings.class.getClassLoader());
 
     BufferedReader reader = new BufferedReader(
-        job.getConfResourceAsReader("elasticsearch.conf"));
+            job.getConfResourceAsReader("elasticsearch.conf"));
     String line;
     String parts[];
-0
+
     while ((line = reader.readLine()) != null) {
       if (StringUtils.isNotBlank(line) && !line.startsWith("#")) {
         line.trim();
@@ -99,16 +100,12 @@ public class ElasticIndexWriter implements IndexWriter {
       settingsBuilder.put("cluster.name", clusterName);
 
     // Set the cluster name and build the settings
-    Settings  settings = Settings.builder()
-            .put("cluster.name", clusterName).build();
-
+    Settings settings = settingsBuilder.build();
 
     // Prefer TransportClient
     if (host != null && port > 1) {
-
-      client = new PreBuiltTransportClient(Settings.EMPTY)
-              .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(host), port));
-
+      client = new TransportClient(settings)
+              .addTransportAddress(new InetSocketTransportAddress(host, port));
     } else if (clusterName != null) {
       node = nodeBuilder().settings(settings).client(true).node();
       client = node.client();
@@ -117,10 +114,9 @@ public class ElasticIndexWriter implements IndexWriter {
     bulk = client.prepareBulk();
     defaultIndex = job.get(ElasticConstants.INDEX, "nutch");
     maxBulkDocs = job.getInt(ElasticConstants.MAX_BULK_DOCS,
-        DEFAULT_MAX_BULK_DOCS);
+            DEFAULT_MAX_BULK_DOCS);
     maxBulkLength = job.getInt(ElasticConstants.MAX_BULK_LENGTH,
-        DEFAULT_MAX_BULK_LENGTH);
-  }
+            DE
 
   @Override
   public void write(NutchDocument doc) throws IOException {
