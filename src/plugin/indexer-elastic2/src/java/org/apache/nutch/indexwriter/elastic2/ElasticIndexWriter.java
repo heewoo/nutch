@@ -116,7 +116,8 @@ public class ElasticIndexWriter implements IndexWriter {
     maxBulkDocs = job.getInt(ElasticConstants.MAX_BULK_DOCS,
             DEFAULT_MAX_BULK_DOCS);
     maxBulkLength = job.getInt(ElasticConstants.MAX_BULK_LENGTH,
-            DE
+            DEFAULT_MAX_BULK_LENGTH);
+  }
 
   @Override
   public void write(NutchDocument doc) throws IOException {
