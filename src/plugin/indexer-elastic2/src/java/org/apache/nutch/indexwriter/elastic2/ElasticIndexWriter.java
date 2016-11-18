@@ -77,8 +77,7 @@ public class ElasticIndexWriter implements IndexWriter {
     host = job.get(ElasticConstants.HOST);
     port = job.getInt(ElasticConstants.PORT, 9300);
 
-    Builder settingsBuilder = ImmutableSettings.settingsBuilder().classLoader(
-            Settings.class.getClassLoader());
+    Builder settingsBuilder = Settings.builder();
 
     BufferedReader reader = new BufferedReader(
             job.getConfResourceAsReader("elasticsearch.conf"));
@@ -104,8 +103,8 @@ public class ElasticIndexWriter implements IndexWriter {
 
     // Prefer TransportClient
     if (host != null && port > 1) {
-      client = new TransportClient(settings)
-              .addTransportAddress(new InetSocketTransportAddress(host, port));
+      client = TransportClient.builder().settings(settings).build()
+              .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(host), port));
     } else if (clusterName != null) {
       node = nodeBuilder().settings(settings).client(true).node();
       client = node.client();
@@ -150,8 +149,8 @@ public class ElasticIndexWriter implements IndexWriter {
     bulkDocs++;
 
     if (bulkDocs >= maxBulkDocs || bulkLength >= maxBulkLength) {
-      LOG.info("Processing bulk request [docs = {}, length = {}, total docs = {}" 
-        + ", last doc in bulk = '{}']", bulkDocs, bulkLength, indexedDocs, id );
+      LOG.info("Processing bulk request [docs = {}, length = {}, total docs = {}"
+              + ", last doc in bulk = '{}']", bulkDocs, bulkLength, indexedDocs, id );
       // Flush the bulk of indexing requests
       createNewBulk = true;
       commit();
@@ -192,13 +191,13 @@ public class ElasticIndexWriter implements IndexWriter {
         for (BulkItemResponse item : actionGet) {
           if (item.isFailed()) {
             throw new RuntimeException("First failure in bulk: "
-                + item.getFailureMessage());
+                    + item.getFailureMessage());
           }
         }
       }
       long msWaited = System.currentTimeMillis() - beforeWait;
-      LOG.info("Previous took in ms {}, including wait {}", 
-        actionGet.getTookInMillis(), msWaited);
+      LOG.info("Previous took in ms {}, including wait {}",
+              actionGet.getTookInMillis(), msWaited);
       execute = null;
     }
     if (bulk != null) {
@@ -220,7 +219,7 @@ public class ElasticIndexWriter implements IndexWriter {
   public void close() throws IOException {
     // Flush pending requests
     LOG.info("Processing remaining requests [docs = {}, length = {}, total docs = {}]"
-      , bulkDocs, bulkLength, indexedDocs);
+            , bulkDocs, bulkLength, indexedDocs);
     createNewBulk = false;
     commit();
     // flush one more time to finalize the last bulk
@@ -239,16 +238,16 @@ public class ElasticIndexWriter implements IndexWriter {
   public String describe() {
     StringBuffer sb = new StringBuffer("ElasticIndexWriter\n");
     sb.append("\t").append(ElasticConstants.CLUSTER)
-        .append(" : elastic prefix cluster\n");
+            .append(" : elastic prefix cluster\n");
     sb.append("\t").append(ElasticConstants.HOST).append(" : hostname\n");
     sb.append("\t").append(ElasticConstants.PORT)
-        .append(" : port  (default 9300)\n");
+            .append(" : port  (default 9300)\n");
     sb.append("\t").append(ElasticConstants.INDEX)
-        .append(" : elastic index command \n");
+            .append(" : elastic index command \n");
     sb.append("\t").append(ElasticConstants.MAX_BULK_DOCS)
-        .append(" : elastic bulk index doc counts. (default 250) \n");
+            .append(" : elastic bulk index doc counts. (default 250) \n");
     sb.append("\t").append(ElasticConstants.MAX_BULK_LENGTH)
-        .append(" : elastic bulk index length. (default 2500500 ~2.5MB)\n");
+            .append(" : elastic bulk index length. (default 2500500 ~2.5MB)\n");
     return sb.toString();
   }
 
